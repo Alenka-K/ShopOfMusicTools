@@ -1,0 +1,51 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+  <title>Create tool</title>
+</head>
+<body>
+  <h2>Enter tool details</h2>
+<form:form action="saveTool" method="post" >
+<table style="with: 50%">
+  <tr>
+    <td>Model</td>
+    <td><form:input path="model"/></td>
+  </tr>
+  <tr>
+    <td>Title</td>
+    <td><form:input path="title"/></td>
+  </tr>
+  <tr>
+    <td>Price</td>
+    <td><form:input path="price"/></td>
+  </tr>
+  <tr>
+    <td>Category</td>
+    <td>
+    <form:select path="category" >
+    <c:forEach items="${categoryList}" var="category">
+      <form:option value="${category}">${category.id}</form:option>
+    </c:forEach>
+    </form:select>
+    </td>
+  </tr>
+  <tr>
+    <td>Producer</td>
+    <td>
+    <form:select path="producer">
+      <c:forEach items="${producerList}" var="producer">
+        <form:option value="${producer}">${producer.id} ${producer.name}</form:option>
+      </c:forEach>
+    </form:select>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><input type="submit" value="Save" /></td>
+  </tr>
+  </form:form>
+</body>
+</html>

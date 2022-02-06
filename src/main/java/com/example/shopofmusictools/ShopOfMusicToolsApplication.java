@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShopOfMusicToolsApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ShopOfMusicToolsApplication.class, args);
+
     }
 
 }
