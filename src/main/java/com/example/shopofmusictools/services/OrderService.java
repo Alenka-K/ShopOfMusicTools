@@ -1,6 +1,7 @@
 package com.example.shopofmusictools.services;
 
 import com.example.shopofmusictools.DataSourceConfig;
+import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.models.Customer;
 import com.example.shopofmusictools.models.Order;
 import com.example.shopofmusictools.models.Tool;
@@ -23,6 +24,22 @@ public class OrderService implements OrderRepository {
     public OrderService(CustomerService customerService, ToolService toolService) {
         this.customerService = customerService;
         this.toolService = toolService;
+    }
+
+    public Order getOrderById(int id){
+        Order order = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_ORDERS WHERE ORD_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while ((resultSet.next())) {
+                    order = parseOrder(resultSet);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return order;
     }
 
 
@@ -53,12 +70,11 @@ public class OrderService implements OrderRepository {
     }
 
     @Override
-    public void updateOrder(int id, Customer customer, Tool tool, int quantity) {
+    public void updateOrder(int id, int quantity) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_ORDERS SET CUST_ID =:1, TOOL_ID = :2, ORD_QUANTITY =:3 WHERE ORD_ID = :4")) {
-            preparedStatement.setInt(1, customer.getId());
-            preparedStatement.setInt(2, tool.getId());
-            preparedStatement.setInt(3, quantity);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_ORDERS SET ORD_QUANTITY =:1 WHERE ORD_ID = :2")) {
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

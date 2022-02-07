@@ -6,11 +6,13 @@
 </head>
 <body>
 <h2>Categories:</h2>
-<table>
+<table border="2", cellpadding="2", width="60%">
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Discount</th>
+        <th>Discount %</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
     <c:forEach items="${list}" var="category">
         <tr>
@@ -24,7 +26,6 @@
 </table>
     <div><a href="./addCategory">Add category</a></div>
     <div><a href="./viewAllTools">View all music tools</a></div>
-    <div><a href="./menu">Back to main menu</a></div>
 
 </body>
 </html>

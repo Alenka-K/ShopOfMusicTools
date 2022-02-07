@@ -11,11 +11,6 @@ import java.util.List;
 @Controller
 public class CategoryController {
 
-//    private final CategoryRepository categoryRepository;
-//
-//    public CategoryController(CategoryRepository categoryRepository) {
-//        this.categoryRepository = categoryRepository;
-//    }
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -23,6 +18,11 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @GetMapping("/showCategory/{id}")
+    public ModelAndView showCategory(@PathVariable int id) {
+        Category category = categoryService.getCategoryById(id);
+        return new ModelAndView("showCategory", "category", category);
+    }
 
     @GetMapping("/viewAllCategories")
     public ModelAndView viewAllCategories() {
@@ -33,6 +33,7 @@ public class CategoryController {
 
     @GetMapping("/addCategory")
     public ModelAndView addCategory(){
+
         return new ModelAndView("addCategory", "command", new Category());
     }
 
@@ -42,21 +43,20 @@ public class CategoryController {
         return new ModelAndView("redirect:/viewAllCategories");
     }
 
+    @RequestMapping("/updateCategory/{id}")
+    public ModelAndView updateCategory(@PathVariable int id){
+        Category category = categoryService.getCategoryById(id);
+        return new ModelAndView("./updateCategory", "command", category);
+    }
+    @PostMapping("/saveUpdate")
+    public ModelAndView saveUpdate(@ModelAttribute Category category){
+        categoryService.updateCategory(category.getId(),category.getName(),category.getDiscount());
+        return new ModelAndView("redirect:/viewAllCategories");
+    }
     @GetMapping("/deleteCategory/{id}")
     public ModelAndView deleteCategory(@PathVariable int id){
         categoryService.removeCategory(id);
         return new ModelAndView("redirect:/viewAllCategories");
     }
 
-    @RequestMapping(value = "/updateCategory/{id}")
-    public ModelAndView updateCategory(@PathVariable int id){
-        Category category = categoryService.getCategoryById(id);
-        return new ModelAndView("updateCategory", "command", category);
-    }
-    @PostMapping("/saveUpdateCategory")
-    public ModelAndView saveUpdateCategory(@ModelAttribute Category category){
-
-        categoryService.updateCategory(category.getId(), category.getName(),category.getDiscount());
-        return new ModelAndView("redirect:/viewAllCategories");
-    }
 }

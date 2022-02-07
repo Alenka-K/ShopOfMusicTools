@@ -2,23 +2,23 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Update category</title>
+    <title>Update information about producer</title>
 </head>
 <body>
-<h2>Update category details:</h2>
-<form:form  action="/saveUpdate" method="post">
+<h2>Update information about producer:</h2>
+<form:form  action="/saveUpdateProducer" method="post">
 <table style="with: 50%">
     <tr>
         <td>Id</td>
         <td><form:input path="id" readonly="true"/></td>
     </tr>
     <tr>
-        <td>Name</td>
+        <td>Company name:</td>
         <td><form:input path="name"/></td>
     </tr>
     <tr>
-        <td>Discount</td>
-        <td><form:input path="discount"/></td>
+        <td>Company location (country):</td>
+        <td><form:input path="country"/></td>
     </tr>
     <tr>
         <td></td>

@@ -55,11 +55,12 @@ public class CustomerService implements CustomerRepository {
     }
 
     @Override
-    public void updateCustomer(int id, String phone) {
+    public void updateCustomer(int id, String name, String phone) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_CUSTOMER SET CUST_PHONE = :1 WHERE CUST_ID = :2")) {
-            preparedStatement.setString(1, phone);
-            preparedStatement.setInt(2, id);
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_CUSTOMER SET CUST_NAME =:1, CUST_PHONE = :2 WHERE CUST_ID = :3")) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phone);
+            preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

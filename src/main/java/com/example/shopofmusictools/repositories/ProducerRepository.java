@@ -1,13 +1,12 @@
 package com.example.shopofmusictools.repositories;
 
-import com.example.shopofmusictools.models.Customer;
-import com.example.shopofmusictools.models.Order;
-import com.example.shopofmusictools.models.Producer;
-import com.example.shopofmusictools.models.Tool;
 
-import java.util.Date;
+import com.example.shopofmusictools.models.Producer;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository
 public interface ProducerRepository {
 
     void addProducer(String name, String country);

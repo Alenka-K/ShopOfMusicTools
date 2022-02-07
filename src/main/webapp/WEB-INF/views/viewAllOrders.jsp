@@ -14,6 +14,7 @@
         <th>Tool</th>
         <th>Quantity</th>
         <th>Update</th>
+        <th>Delete</th>
     </tr>
     <c:forEach var="order" items="${list}">
         <tr>
@@ -23,10 +24,10 @@
             <td>${order.tool.model} ${order.tool.title}</td>
             <td>${order.quantity}</td>
             <td><a href="updateOrder/${order.id}">Edit</a></td>
+            <td><a href="deleteOrder/${order.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
-<div><a href="./addOrder">Add new order</a></div>
-<div><a href="./menu">Back to main menu</a></div>
+<div><a href="./viewAllTools">Go to list of tools for ordering</a></div>
 </body>
 </html>

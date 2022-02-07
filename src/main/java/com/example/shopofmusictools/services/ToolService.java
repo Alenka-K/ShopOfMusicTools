@@ -31,11 +31,12 @@ public class ToolService implements ToolRepository {
     public Tool getToolById(int id){
         Tool tool = null;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_TOOLS WHERE TOOL_ID = ?");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_TOOLS WHERE TOOL_ID = ?")) {
             preparedStatement.setInt(1, id);
-            while ((resultSet.next())) {
-                tool = parseTool(resultSet);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while ((resultSet.next())) {
+                    tool = parseTool(resultSet);
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -61,7 +62,7 @@ public class ToolService implements ToolRepository {
     @Override
     public void removeTool(int id) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE LAB2_EK_TOOLS WHERE TOOL_ID = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM LAB2_EK_TOOLS WHERE TOOL_ID = :1")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -78,6 +79,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(3, price);
             preparedStatement.setInt(4, category.getId());
             preparedStatement.setInt(5, producer.getId());
+            preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

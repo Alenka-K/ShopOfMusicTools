@@ -5,15 +5,15 @@
     <title>Create customer</title>
 </head>
 <body>
-<h2>Enter info about new customer</h2>
-<form:form action="saveCustomer" method="post">
+<h2>Enter info about new customer:</h2>
+<form:form action="saveCustomer" method="post" commandName="command">
     <table style="with: 50%">
     <tr>
-        <td>Name</td>
+        <td>Name: <font color="red"><form:errors path="name"/></font></td>
         <td><form:input path="name"/></td>
     </tr>
     <tr>
-        <td>Phone</td>
+        <td>Phone(+38 (XXX) XXX-XXXX): <font color="red"><form:errors path="phone"/></font></td>
         <td><form:input path="phone"/></td>
     </tr>
     <tr>

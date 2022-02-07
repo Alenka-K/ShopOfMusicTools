@@ -3,23 +3,29 @@
 <%@ taglib prefix="calendar" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Create order</title>
 </head>
 <body>
 <h2>Enter order details</h2>
-<form:form action="saveOrder" method="post" >
+<form:form action="/saveOrder" method="post" >
 <table style="with: 50%">
     <tr>
         <td>Customer</td>
-        <td><form:input path="customer.id"/></td>
-        <td><a href="/addCustomer">Add new customer</a></td>
+        <td>
+        <form:select path="customer" >
+            <c:forEach items="${customerList}" var="customer">
+                <form:option value="${customer.id}">${customer.name} ${customer.phone}</form:option>
+            </c:forEach>
+        </form:select>
+        </td>
     </tr>
 
     <tr>
         <td>Tool</td>
-        <td><form:input path="tool"/></td>
+        <td><form:input path="tool" value="${tool.id}"/></td>
     </tr>
     <tr>
         <td>Quantity</td>

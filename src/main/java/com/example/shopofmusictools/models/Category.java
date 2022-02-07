@@ -1,13 +1,10 @@
 package com.example.shopofmusictools.models;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Configuration
-public class Category implements Serializable {
+
+public class Category {
 
     private int id;
 

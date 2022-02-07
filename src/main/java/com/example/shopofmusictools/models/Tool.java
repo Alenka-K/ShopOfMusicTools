@@ -69,6 +69,11 @@ public class Tool {
     public void setProducer(Producer producer) {
         this.producer = producer;
     }
+
+    @Override
+    public String toString() {
+        return model + title;
+    }
 }
 
 

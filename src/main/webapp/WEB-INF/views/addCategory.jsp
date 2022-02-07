@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
@@ -6,7 +6,6 @@
 </head>
 <body>
 <h2>Enter category details</h2>
-
 <form:form action="saveCategory" method="post">
 <table style="with: 50%">
     <tr>

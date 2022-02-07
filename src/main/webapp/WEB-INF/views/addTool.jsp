@@ -27,7 +27,7 @@
     <td>
     <form:select path="category" >
     <c:forEach items="${categoryList}" var="category">
-      <form:option value="${category}">${category.id}</form:option>
+      <form:option value="${category.id}">${category.name}</form:option>
     </c:forEach>
     </form:select>
     </td>
@@ -37,7 +37,7 @@
     <td>
     <form:select path="producer">
       <c:forEach items="${producerList}" var="producer">
-        <form:option value="${producer}">${producer.id} ${producer.name}</form:option>
+        <form:option value="${producer.id}">${producer.id} ${producer.name}</form:option>
       </c:forEach>
     </form:select>
     </td>

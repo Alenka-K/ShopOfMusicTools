@@ -1,13 +1,14 @@
 package com.example.shopofmusictools.controllers;
 
 
-import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.models.Customer;
 import com.example.shopofmusictools.services.CustomerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -34,9 +35,13 @@ public class CustomerController {
     }
 
     @PostMapping("/saveCustomer")
-    public ModelAndView saveCustomer(@ModelAttribute Customer customer){
-        customerService.addCustomer(customer.getName(),customer.getPhone());
-        return new ModelAndView("redirect:/addOrder");
+    public ModelAndView saveCustomer(@ModelAttribute("command") @Valid Customer customer, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView("/addCustomer");
+        }else {
+            customerService.addCustomer(customer.getName(), customer.getPhone());
+        }
+        return new ModelAndView("redirect:/viewAllCustomers");
     }
 
     @GetMapping("/deleteCustomer/{id}")
@@ -47,12 +52,12 @@ public class CustomerController {
 
     @RequestMapping(value = "/updateCustomer/{id}", method = RequestMethod.GET)
     public ModelAndView updateCustomer(@PathVariable int id){
-        Customer customer = null;
-        for (Customer temp: customerService.getAllCustomer()){
-            if(temp.getId() == id){
-                customer = temp;
-            }
-        }
+        Customer customer = customerService.getCustomerById(id);
         return new ModelAndView("updateCustomer", "command",customer);
+    }
+    @PostMapping("/saveUpdateCustomer")
+    public ModelAndView saveUpdateCustomer(@ModelAttribute Customer customer){
+        customerService.updateCustomer(customer.getId(),customer.getName(),customer.getPhone());
+        return new ModelAndView("redirect:/viewAllCustomers");
     }
 }

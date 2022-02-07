@@ -18,6 +18,23 @@ public class ProducerService implements ProducerRepository {
 
     private final DataSource dataSource = DataSourceConfig.dataSource();
 
+
+    public Producer getProducerById(int id) {
+        Producer producer = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_PRODUCER WHERE PROD_ID = ?")) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while ((resultSet.next())) {
+                    producer = parseProducer(resultSet);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return producer;
+    }
+
     @Override
     public void addProducer(String name, String country) {
         try (Connection connection = dataSource.getConnection();
@@ -33,7 +50,7 @@ public class ProducerService implements ProducerRepository {
     @Override
     public void removeProducer(int id) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE LAB2_EK_PRODUCER WHERE PROD_ID = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM LAB2_EK_PRODUCER WHERE PROD_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {

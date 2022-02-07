@@ -1,16 +1,15 @@
 package com.example.shopofmusictools.controllers;
 
 
+import com.example.shopofmusictools.models.Category;
+import com.example.shopofmusictools.models.Producer;
 import com.example.shopofmusictools.models.Tool;
 import com.example.shopofmusictools.services.CategoryService;
 import com.example.shopofmusictools.services.ProducerService;
 import com.example.shopofmusictools.services.ToolService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -52,19 +51,43 @@ public class ToolController {
         model.addAttribute("categoryList", categoryService.getAllCategory());
         model.addAttribute("producerList", producerService.getAllProducer());
         model.addAttribute("command", new Tool());
-//        List<Category> categoryList = categoryService.getAllCategory();
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("categoryList", categoryList);
-//        mav.addObject("command", new Tool());
-//        mav.setViewName("addTool");
         return "addTool";
     }
 
     @PostMapping("/saveTool")
-    public ModelAndView saveTool(@ModelAttribute Tool tool){
-        toolService.addTool(tool.getModel(),tool.getTitle(), tool.getPrice(), tool.getCategory(), tool.getProducer());
-        return new ModelAndView("redirect:/viewAllTools");
+    public String saveTool(@RequestParam("model") String model,
+                                 @RequestParam("title") String title,
+                                 @RequestParam("price") int price,
+                                 @RequestParam("category") int cat_id,@RequestParam("producer") int prod_id){
+        Category cat = categoryService.getCategoryById(cat_id);
+        Producer prod = producerService.getProducerById(prod_id);
+        toolService.addTool(model,title, price, cat, prod);
+        return "redirect:/viewAllTools";
     }
+
+    @GetMapping("/updateTool/{id}")
+    public String updateTool(@PathVariable int id, Model model){
+        Tool tool = toolService.getToolById(id);
+        model.addAttribute("categoryList", categoryService.getAllCategory());
+        model.addAttribute("producerList", producerService.getAllProducer());
+        model.addAttribute("command", tool);
+        return "updateTool";
+    }
+
+    @PostMapping("/saveUpdateTool")
+    public String saveUpdateTool(@RequestParam("id") int id,
+                            @RequestParam("model") String model,
+                            @RequestParam("title") String title,
+                            @RequestParam("price") int price,
+                            @RequestParam("category") int cat_id,
+                            @RequestParam("producer") int prod_id){
+        Category cat = categoryService.getCategoryById(cat_id);
+        Producer prod = producerService.getProducerById(prod_id);
+        toolService.updateTool(id, model,title, price, cat, prod);
+        return "redirect:/viewAllTools";
+    }
+
+
     @GetMapping("/deleteTool/{id}")
     public ModelAndView deleteTool(@PathVariable int id){
         toolService.removeTool(id);

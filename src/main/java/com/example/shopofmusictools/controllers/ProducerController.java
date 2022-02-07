@@ -19,6 +19,12 @@ public class ProducerController {
     }
 
 
+    @GetMapping("/showProducer/{id}")
+    public ModelAndView showProducer(@PathVariable int id) {
+        Producer producer = producerService.getProducerById(id);
+        return new ModelAndView("showProducer", "producer", producer);
+    }
+
     @GetMapping("/viewAllProducers")
     public ModelAndView viewAllProducers() {
         List<Producer> producers = producerService.getAllProducer();
@@ -45,12 +51,12 @@ public class ProducerController {
 
     @RequestMapping(value = "/updateProducer/{id}", method = RequestMethod.GET)
     public ModelAndView updateProducer(@PathVariable int id){
-        Producer producer = null;
-        for (Producer temp: producerService.getAllProducer()){
-            if(temp.getId() == id){
-                producer = temp;
-            }
-        }
+        Producer producer = producerService.getProducerById(id);
         return new ModelAndView("updateProducer", "command",producer);
+    }
+    @PostMapping("/saveUpdateProducer")
+    public ModelAndView saveUpdateProducer(@ModelAttribute Producer producer){
+        producerService.updateProducer(producer.getId(),producer.getName(),producer.getCountry());
+        return new ModelAndView("redirect:/viewAllProducers");
     }
 }
