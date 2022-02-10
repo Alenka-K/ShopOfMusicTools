@@ -1,21 +1,26 @@
 package com.example.shopofmusictools.models;
 
-
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Order {
+public class Order implements Serializable {
 
     private int id;
     private Customer customer;
     private Date date;
     private Tool tool;
+
+    @DecimalMin(value = "1", message = "Quantity can not be null")
     private int quantity;
+
+
 
 
     public Order() {
     }
 
-    public Order(int id, Customer customer, Date date, Tool tool, int quantity) {
+    public Order(int id, Date date, Customer customer, Tool tool, int quantity) {
         this.id = id;
         this.customer = customer;
         this.date = date;
@@ -59,5 +64,16 @@ public class Order {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", date=" + date +
+                ", tool=" + tool +
+                ", quantity=" + quantity +
+                '}';
     }
 }

@@ -1,7 +1,9 @@
 package com.example.shopofmusictools.models;
 
 
-public class Producer {
+import java.io.Serializable;
+
+public class Producer implements Serializable {
 
     private int id;
     private String name;

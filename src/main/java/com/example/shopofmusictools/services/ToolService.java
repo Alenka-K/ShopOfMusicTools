@@ -5,6 +5,7 @@ import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.models.Producer;
 import com.example.shopofmusictools.models.Tool;
 import com.example.shopofmusictools.repositories.ToolRepository;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Service
 public class ToolService implements ToolRepository {
-
+    private static final Logger logger = Logger.getLogger(ToolService.class);
     private final DataSource dataSource = DataSourceConfig.dataSource();
 
     private final CategoryService categoryService;
@@ -28,10 +29,10 @@ public class ToolService implements ToolRepository {
         this.producerService = producerService;
     }
 
-    public Tool getToolById(int id){
+    public Tool getToolById(int id) {
         Tool tool = null;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_TOOLS WHERE TOOL_ID = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_TOOLS WHERE TOOL_ID = :1")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while ((resultSet.next())) {
@@ -39,12 +40,12 @@ public class ToolService implements ToolRepository {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return tool;
     }
 
-    @Override
+        @Override
     public void addTool(String model, String title, int price, Category category, Producer producer) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_TOOLS (TOOL_MODEL,TOOL_TITLE, TOOL_PRICE, CAT_ID, PROD_ID) VALUES (:1, :2, :3, :4, :5)")) {
@@ -55,7 +56,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(5, producer.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -66,7 +67,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -82,7 +83,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -96,7 +97,7 @@ public class ToolService implements ToolRepository {
                 tools.add(parseTool(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
         return tools;
     }
@@ -109,13 +110,7 @@ public class ToolService implements ToolRepository {
             String tool_title = resultSet.getString("TOOL_TITLE");
             int tool_price = resultSet.getInt("TOOL_PRICE");
             int cat_id = resultSet.getInt("CAT_ID");
-            List<Category> categories = categoryService.getAllCategory();
-            Category category = null;
-            for (Category tempCategory: categories) {
-                if(tempCategory.getId() == cat_id){
-                    category = tempCategory;
-                }
-            }
+            Category category = categoryService.getCategoryById(cat_id);
             int prod_id = resultSet.getInt("PROD_ID");
             List<Producer> producers = producerService.getAllProducer();
             Producer producer = null;
@@ -126,7 +121,7 @@ public class ToolService implements ToolRepository {
             }
             tool = new Tool(tool_id, tool_model, tool_title, tool_price, category, producer);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return tool;
     }

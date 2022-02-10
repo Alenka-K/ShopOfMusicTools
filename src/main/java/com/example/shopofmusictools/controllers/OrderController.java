@@ -6,11 +6,12 @@ import com.example.shopofmusictools.services.CustomerService;
 import com.example.shopofmusictools.services.OrderService;
 import com.example.shopofmusictools.services.ToolService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import javax.validation.Valid;
 import java.util.List;
+
 
 @Controller
 public class OrderController {
@@ -28,40 +29,46 @@ public class OrderController {
     @GetMapping("/viewAllOrders")
     public ModelAndView viewAllOrders() {
         List<Order> orders = orderService.getAllOrder();
-        List<Tool> tools = toolService.getAllTool();
         return new ModelAndView("viewAllOrders", "list", orders);
     }
 
     @RequestMapping("/addOrder/{id}")
-    public String addOrder(@PathVariable int id, Model model){
-        model.addAttribute("customerList", customerService.getAllCustomer());
-        Order order = new Order();
-        model.addAttribute("tool", toolService.getToolById(id));
-        order.setTool(toolService.getToolById(id));
-        model.addAttribute("command", order);
-        return "./addOrder"; //new ModelAndView("addOrder", "command", new Order());
+    public ModelAndView addOrder(@PathVariable int id, ModelAndView model){
+        List<Customer> customerList = customerService.getAllCustomer();
+        model.addObject("customerList", customerList);
+       Order order = new Order();
+       Tool tool = toolService.getToolById(id);
+       model.addObject("tool", tool);
+       order.setTool(tool);
+       model.addObject("command", order);
+        model.setViewName("./addOrder");
+        return model;
     }
 
-    @RequestMapping("/saveOrder")
-    public ModelAndView saveCategory(@RequestParam("customer") int customer_id,
-                                     @RequestParam("tool") int tool_id,
-                                     @RequestParam("quantity") int quantity){
-        Customer customer = customerService.getCustomerById(customer_id);
-        Tool tool = toolService.getToolById(tool_id);
-        orderService.addOrder(customer, tool, quantity);
+    @PostMapping("/saveOrder")
+    public ModelAndView saveOrder(@ModelAttribute("command") @Valid Order order, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView("/addOrder", "customerList", customerService.getAllCustomer());
+        }else {
+            System.out.println(order.getTool());
+            orderService.addOrder(order.getCustomer(),order.getTool(),order.getQuantity());
+        }
         return new ModelAndView("redirect:/viewAllOrders");
     }
 
-    @RequestMapping("/updateOrder/{id}")
+    @RequestMapping(value="/updateOrder/{id}", method = RequestMethod.GET)
     public ModelAndView updateOrder(@PathVariable int id){
         Order order = orderService.getOrderById(id);
-        return new ModelAndView("./updateOrder", "command", order);
+        return new ModelAndView("/updateOrder", "command", order);
     }
 
     @PostMapping("/saveUpdateOrder")
-    public ModelAndView saveUpdate(@RequestParam("id") int id,
-                                   @RequestParam("quantity") int quantity){
-        orderService.updateOrder(id, quantity);
+    public ModelAndView saveUpdateOrder(@ModelAttribute("command") @Valid Order order, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/updateOrder");
+        }else {
+            orderService.updateOrder(order.getId(), order.getQuantity());
+        }
         return new ModelAndView("redirect:/viewAllOrders");
     }
 
@@ -70,4 +77,5 @@ public class OrderController {
         orderService.removeOrder(id);
         return new ModelAndView("redirect:/viewAllOrders");
     }
+
 }

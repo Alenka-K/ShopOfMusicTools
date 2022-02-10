@@ -1,7 +1,9 @@
 package com.example.shopofmusictools.models;
 
 
-public class Tool {
+import java.io.Serializable;
+
+public class Tool implements Serializable {
 
     private int id;
     private String model;

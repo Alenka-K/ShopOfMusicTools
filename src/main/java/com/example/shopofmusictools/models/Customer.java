@@ -4,15 +4,16 @@ package com.example.shopofmusictools.models;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-public class Customer {
+public class Customer implements Serializable {
 
     private int id;
     @NotEmpty(message = "Name not should be empty")
     @Size(min = 2, max = 50, message = "Name cannot contains one letter")
     private String name;
     @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$",
-            message = "Phone does not match any of the known formats")
+            message = "Phone does not match any of the formats")
     private String phone;
 
     public Customer() {
@@ -46,5 +47,14 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

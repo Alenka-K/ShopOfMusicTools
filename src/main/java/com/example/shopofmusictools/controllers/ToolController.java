@@ -28,17 +28,7 @@ public class ToolController {
         this.categoryService = categoryService;
         this.producerService = producerService;
     }
-
-    @GetMapping("/menu")
-    public String viewMenu() {
-        return "menu";
-    }
-
-    @GetMapping("/viewTool/{id}")
-    public ModelAndView viewTool(@PathVariable int id) {
-        Tool tool = toolService.getToolById(id);
-        return new ModelAndView("viewTool", "tool", tool);
-    }
+    
 
     @GetMapping("/viewAllTools")
     public ModelAndView viewAllTools() {

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,7 +29,6 @@ public class CustomerController {
 
     @GetMapping("/addCustomer")
     public ModelAndView addCustomer(){
-
         return new ModelAndView("addCustomer", "command", new Customer());
     }
 
@@ -56,8 +54,12 @@ public class CustomerController {
         return new ModelAndView("updateCustomer", "command",customer);
     }
     @PostMapping("/saveUpdateCustomer")
-    public ModelAndView saveUpdateCustomer(@ModelAttribute Customer customer){
-        customerService.updateCustomer(customer.getId(),customer.getName(),customer.getPhone());
+    public ModelAndView saveUpdateCustomer(@ModelAttribute("command") @Valid Customer customer, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView("/updateCustomer");
+        }else {
+            customerService.updateCustomer(customer.getId(), customer.getName(), customer.getPhone());
+      }
         return new ModelAndView("redirect:/viewAllCustomers");
     }
 }

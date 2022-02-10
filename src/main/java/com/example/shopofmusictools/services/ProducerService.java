@@ -3,6 +3,7 @@ package com.example.shopofmusictools.services;
 import com.example.shopofmusictools.DataSourceConfig;
 import com.example.shopofmusictools.models.Producer;
 import com.example.shopofmusictools.repositories.ProducerRepository;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Service
 public class ProducerService implements ProducerRepository {
-
+    private static final Logger logger = Logger.getLogger(ProducerService.class);
     private final DataSource dataSource = DataSourceConfig.dataSource();
 
 
@@ -30,7 +31,7 @@ public class ProducerService implements ProducerRepository {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return producer;
     }
@@ -43,7 +44,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setString(2, country);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -54,7 +55,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -67,7 +68,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -81,7 +82,7 @@ public class ProducerService implements ProducerRepository {
                 producers.add(parseProducer(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
         return producers;
     }
@@ -94,7 +95,7 @@ public class ProducerService implements ProducerRepository {
             String prod_country = resultSet.getString("PROD_COUNTRY");
             producer = new Producer(prod_id, prod_name, prod_country);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return producer;
     }

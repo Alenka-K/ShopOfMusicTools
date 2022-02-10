@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Information about category</title>
@@ -6,6 +6,10 @@
 <body>
 <h2>Category details</h2>
 <table style="with: 50%">
+    <tr>
+        <td>Category ID:</td>
+        <td>${category.id}</td>
+    </tr>
     <tr>
         <td>Category name:</td>
         <td>${category.name}</td>

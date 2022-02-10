@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>All producers</title>
@@ -11,21 +12,30 @@
         <th>ID</th>
         <th>Company name</th>
         <th>Location</th>
-        <th>Update</th>
-        <th>Delete</th>
+        <security:authorize access="hasRole('ADMIN')">
+            <th>Update</th>
+            <th>Delete</th>
+        </security:authorize>
+        <security:csrfInput/>
     </tr>
     <c:forEach items="${list}" var="producer">
         <tr>
             <td>${producer.id}</td>
             <td>${producer.name}</td>
             <td>${producer.country}</td>
-            <td><a href="/updateProducer/${producer.id}">Edit</a></td>
-            <td><a href="deleteProducer/${producer.id}">Delete</a></td>
+            <security:authorize access="hasRole('ADMIN')">
+                <td><a href="/updateProducer/${producer.id}">Edit</a></td>
+                <td><a href="deleteProducer/${producer.id}">Delete</a></td>
+            </security:authorize>
+            <security:csrfInput/>
         </tr>
     </c:forEach>
 </table>
-<div><a href="./addProducer">Add producer</a></div>
-<div><a href="./viewAllTools">Back to list of tools</a></div>
+    <security:authorize access="hasRole('ADMIN')">
+        <div><a href="./addProducer">Add producer</a></div>
+    </security:authorize>
+    <security:csrfInput/>
+        <div><a href="./viewAllTools">Back to list of tools</a></div>
 
 </body>
 </html>

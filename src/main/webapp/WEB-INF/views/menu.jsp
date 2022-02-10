@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page errorPage="errorPage.jsp" %>
 <html>
 <head>
     <title>Main menu</title>

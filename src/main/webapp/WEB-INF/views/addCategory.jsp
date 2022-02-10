@@ -13,7 +13,7 @@
         <td><form:input path="name"/></td>
     </tr>
     <tr>
-        <td>Discount</td>
+        <td>Discount (0 to 60%): <font color="red"><form:errors path="discount"/></font></td>
         <td><form:input path="discount"/></td>
     </tr>
     <tr>
@@ -21,5 +21,6 @@
         <td><input type="submit" value="Save" /></td>
     </tr>
     </form:form>
+</table>
 </body>
 </html>

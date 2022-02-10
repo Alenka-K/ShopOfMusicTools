@@ -3,6 +3,7 @@ package com.example.shopofmusictools.services;
 import com.example.shopofmusictools.DataSourceConfig;
 import com.example.shopofmusictools.models.Customer;
 import com.example.shopofmusictools.repositories.CustomerRepository;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 public class CustomerService implements CustomerRepository {
-
+    private static final Logger logger = Logger.getLogger(CustomerService.class);
     private final DataSource dataSource = DataSourceConfig.dataSource();
 
     @Override
@@ -25,7 +26,7 @@ public class CustomerService implements CustomerRepository {
                 customers.add(parseCustomer(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
         return customers;
 
@@ -39,7 +40,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setString(2, phone);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -50,7 +51,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -63,7 +64,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
@@ -75,7 +76,7 @@ public class CustomerService implements CustomerRepository {
             String cust_phone = resultSet.getString("CUST_PHONE");
             customer = new Customer(cust_id, cust_name, cust_phone);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return customer;
     }
@@ -91,7 +92,7 @@ public class CustomerService implements CustomerRepository {
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            logger.error(throwables.getStackTrace());
         }
         return customer;
     }

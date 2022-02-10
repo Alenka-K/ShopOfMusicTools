@@ -1,6 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -46,6 +45,7 @@
     <td></td>
     <td><input type="submit" value="Save" /></td>
   </tr>
-  </form:form>
+</table>
+</form:form>
 </body>
 </html>
