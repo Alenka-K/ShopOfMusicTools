@@ -42,4 +42,23 @@ public class Producer implements Serializable {
         this.country = country;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Producer producer = (Producer) o;
+
+        if (id != producer.id) return false;
+        if (name != null ? !name.equals(producer.name) : producer.name != null) return false;
+        return country != null ? country.equals(producer.country) : producer.country == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        return result;
+    }
 }

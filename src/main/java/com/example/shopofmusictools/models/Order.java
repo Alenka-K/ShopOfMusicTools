@@ -76,4 +76,28 @@ public class Order implements Serializable {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (id != order.id) return false;
+        if (quantity != order.quantity) return false;
+        if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
+        if (date != null ? !date.equals(order.date) : order.date != null) return false;
+        return tool != null ? tool.equals(order.tool) : order.tool == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (tool != null ? tool.hashCode() : 0);
+        result = 31 * result + quantity;
+        return result;
+    }
 }

@@ -76,6 +76,32 @@ public class Tool implements Serializable {
     public String toString() {
         return model + title;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tool tool = (Tool) o;
+
+        if (id != tool.id) return false;
+        if (price != tool.price) return false;
+        if (model != null ? !model.equals(tool.model) : tool.model != null) return false;
+        if (title != null ? !title.equals(tool.title) : tool.title != null) return false;
+        if (category != null ? !category.equals(tool.category) : tool.category != null) return false;
+        return producer != null ? producer.equals(tool.producer) : tool.producer == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + price;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (producer != null ? producer.hashCode() : 0);
+        return result;
+    }
 }
 
 
