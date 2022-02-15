@@ -1,7 +1,6 @@
 package com.example.shopofmusictools.services;
 
 import com.example.shopofmusictools.DataSourceConfig;
-import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.models.Customer;
 import com.example.shopofmusictools.models.Order;
 import com.example.shopofmusictools.models.Tool;
@@ -9,7 +8,6 @@ import com.example.shopofmusictools.repositories.OrderRepository;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
