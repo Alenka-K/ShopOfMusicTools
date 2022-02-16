@@ -1,5 +1,7 @@
 package com.example.shopofmusictools.security;
 
+import com.example.shopofmusictools.services.CategoryService;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final Logger logger = Logger.getLogger(WebSecurityConfig.class);
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -29,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         try {
             super.configure(web);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         }
     }
 
