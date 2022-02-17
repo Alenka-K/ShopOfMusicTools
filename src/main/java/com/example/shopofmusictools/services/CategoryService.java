@@ -3,11 +3,8 @@ package com.example.shopofmusictools.services;
 import com.example.shopofmusictools.DataSourceConfig;
 import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.repositories.CategoryRepository;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +17,16 @@ import java.util.List;
 public class CategoryService implements CategoryRepository {
 
     private static final Logger logger = Logger.getLogger(CategoryService.class);
-    private final DataSource dataSource = DataSourceConfig.dataSource();
+
+    private final DataSourceConfig dataSourceConfig;
+
+    public CategoryService(DataSourceConfig dataSourceConfig) {
+        this.dataSourceConfig = dataSourceConfig;
+    }
 
     public Category getCategoryById(int id){
         Category category = null;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_CATEGORIES WHERE CAT_ID = :1")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -40,7 +42,7 @@ public class CategoryService implements CategoryRepository {
 
     @Override
     public void addCategory(String name, int discount) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_CATEGORIES (CAT_NAME, CAT_DISCOUNT) VALUES (:1, :2)")) {
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, discount);
@@ -52,7 +54,7 @@ public class CategoryService implements CategoryRepository {
 
     @Override
     public void removeCategory(int id) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE LAB2_EK_CATEGORIES WHERE CAT_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
@@ -63,7 +65,7 @@ public class CategoryService implements CategoryRepository {
 
     @Override
     public void updateCategory(int id, String name, int discount) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_CATEGORIES SET CAT_NAME = :1, CAT_DISCOUNT = :2 WHERE CAT_ID = :3")) {
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, discount);
@@ -77,7 +79,7 @@ public class CategoryService implements CategoryRepository {
     @Override
     public List<Category> getAllCategory() {
         List<Category> categories = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_CATEGORIES order by CAT_ID");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while ((resultSet.next())) {

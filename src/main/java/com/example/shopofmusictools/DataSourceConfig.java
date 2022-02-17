@@ -2,31 +2,36 @@ package com.example.shopofmusictools;
 
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+
 import javax.sql.DataSource;
 
 
 @Configuration
+@PropertySource(value = {"classpath:application.properties"})
 public class DataSourceConfig {
 
 
-    //@Value("${spring.datasource.url}")
-    private static final String datasourceUrl = "jdbc:oracle:thin:@//localhost:1521/XE";
-    //@Value("${spring.datasource.driver-class-name}")
-    private static final String driverClassName = "oracle.jdbc.OracleDriver";
-    //@Value("${spring.datasource.username}")
-    private static final String userName = "alena";
-    //@Value("${spring.datasource.password}")
-    private static final String password = "123";
+    @Value("${spring.datasource.url}")
+    String url;
+    @Value("${spring.datasource.driver-class-name}")
+    String driverClassName;
+    @Value("${spring.datasource.username}")
+    String userName;
+    @Value("${spring.datasource.password}")
+    String password;
 
     @Bean
-    public static DataSource dataSource() {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(datasourceUrl);
+        dataSource.setUrl(url);
         dataSource.setUsername(userName);
         dataSource.setPassword(password);
 

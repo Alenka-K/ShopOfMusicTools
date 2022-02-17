@@ -1,6 +1,5 @@
 package com.example.shopofmusictools.security;
 
-import com.example.shopofmusictools.services.CategoryService;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

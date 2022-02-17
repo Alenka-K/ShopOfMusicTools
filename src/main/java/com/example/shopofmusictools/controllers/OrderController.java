@@ -50,7 +50,6 @@ public class OrderController {
         if(bindingResult.hasErrors()) {
             return new ModelAndView("/addOrder", "customerList", customerService.getAllCustomer());
         }else {
-            System.out.println(order.getTool());
             orderService.addOrder(order.getCustomer(),order.getTool(),order.getQuantity());
         }
         return new ModelAndView("redirect:/viewAllOrders");

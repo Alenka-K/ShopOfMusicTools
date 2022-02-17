@@ -5,7 +5,6 @@ import com.example.shopofmusictools.models.Producer;
 import com.example.shopofmusictools.repositories.ProducerRepository;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,12 +16,17 @@ import java.util.List;
 @Service
 public class ProducerService implements ProducerRepository {
     private static final Logger logger = Logger.getLogger(ProducerService.class);
-    private final DataSource dataSource = DataSourceConfig.dataSource();
+
+    private final DataSourceConfig dataSourceConfig;
+
+    public ProducerService(DataSourceConfig dataSourceConfig) {
+        this.dataSourceConfig = dataSourceConfig;
+    }
 
 
     public Producer getProducerById(int id) {
         Producer producer = null;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_PRODUCER WHERE PROD_ID = ?")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -38,7 +42,7 @@ public class ProducerService implements ProducerRepository {
 
     @Override
     public void addProducer(String name, String country) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_PRODUCER (PROD_NAME, PROD_COUNTRY) VALUES (:1, :2)")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, country);
@@ -50,7 +54,7 @@ public class ProducerService implements ProducerRepository {
 
     @Override
     public void removeProducer(int id) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM LAB2_EK_PRODUCER WHERE PROD_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
@@ -61,7 +65,7 @@ public class ProducerService implements ProducerRepository {
 
     @Override
     public void updateProducer(int id, String name, String country) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_PRODUCER SET PROD_NAME = :1, PROD_COUNTRY =:2 WHERE PROD_ID = :3")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, country);
@@ -75,7 +79,7 @@ public class ProducerService implements ProducerRepository {
     @Override
     public List<Producer> getAllProducer() {
         List<Producer> producers = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_PRODUCER order by PROD_ID");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while ((resultSet.next())) {

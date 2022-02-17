@@ -5,8 +5,6 @@ import com.example.shopofmusictools.models.Customer;
 import com.example.shopofmusictools.repositories.CustomerRepository;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +12,16 @@ import java.util.List;
 @Service
 public class CustomerService implements CustomerRepository {
     private static final Logger logger = Logger.getLogger(CustomerService.class);
-    private final DataSource dataSource = DataSourceConfig.dataSource();
+
+    private final DataSourceConfig dataSourceConfig;
+
+    public CustomerService(DataSourceConfig dataSourceConfig) {this.dataSourceConfig = dataSourceConfig;}
+
 
     @Override
     public List<Customer> getAllCustomer() {
         List<Customer> customers = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_CUSTOMER order by CUST_ID");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while ((resultSet.next())) {
@@ -34,7 +36,7 @@ public class CustomerService implements CustomerRepository {
 
     @Override
     public void addCustomer(String name, String phone) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_CUSTOMER (CUST_NAME, CUST_PHONE) VALUES (:1, :2)")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, phone);
@@ -46,7 +48,7 @@ public class CustomerService implements CustomerRepository {
 
     @Override
     public void removeCustomer(int id) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE LAB2_EK_CUSTOMER WHERE CUST_ID = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
@@ -57,7 +59,7 @@ public class CustomerService implements CustomerRepository {
 
     @Override
     public void updateCustomer(int id, String name, String phone) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE LAB2_EK_CUSTOMER SET CUST_NAME =:1, CUST_PHONE = :2 WHERE CUST_ID = :3")) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, phone);
@@ -83,7 +85,7 @@ public class CustomerService implements CustomerRepository {
 
     public Customer getCustomerById(int id) {
         Customer customer = null;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSourceConfig.dataSource().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM LAB2_EK_CUSTOMER WHERE CUST_ID = ?")) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
