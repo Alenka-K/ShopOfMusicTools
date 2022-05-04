@@ -22,6 +22,10 @@
     <td><form:input path="price"/></td>
   </tr>
   <tr>
+    <td>Currency</td>
+    <td><form:input path="currency"/></td>
+  </tr>
+  <tr>
     <td>Category</td>
     <td>
     <form:select path="category" >

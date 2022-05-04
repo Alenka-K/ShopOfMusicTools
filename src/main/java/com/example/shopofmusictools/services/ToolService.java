@@ -45,15 +45,16 @@ public class ToolService implements ToolRepository {
         return tool;
     }
 
-        @Override
-    public void addTool(String model, String title, int price, Category category, Producer producer) {
+    @Override
+    public void addTool(String model, String title, int price, String currency, Category category, Producer producer) {
         try (Connection connection = dataSourceConfig.dataSource().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_TOOLS (TOOL_MODEL,TOOL_TITLE, TOOL_PRICE, CAT_ID, PROD_ID) VALUES (:1, :2, :3, :4, :5)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO LAB2_EK_TOOLS (TOOL_MODEL,TOOL_TITLE, TOOL_PRICE, TOOL_CURRENCY, CAT_ID, PROD_ID) VALUES (:1, :2, :3, :4, :5, :6)")) {
             preparedStatement.setString(1, model);
             preparedStatement.setString(2, title);
             preparedStatement.setInt(3, price);
-            preparedStatement.setInt(4, category.getId());
-            preparedStatement.setInt(5, producer.getId());
+            preparedStatement.setString(4, currency);
+            preparedStatement.setInt(5, category.getId());
+            preparedStatement.setInt(6, producer.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e.getStackTrace());
@@ -109,6 +110,7 @@ public class ToolService implements ToolRepository {
             String tool_model = resultSet.getString("TOOL_MODEL");
             String tool_title = resultSet.getString("TOOL_TITLE");
             int tool_price = resultSet.getInt("TOOL_PRICE");
+            String tool_currency = resultSet.getString("TOOL_CURRENCY");
             int cat_id = resultSet.getInt("CAT_ID");
             Category category = categoryService.getCategoryById(cat_id);
             int prod_id = resultSet.getInt("PROD_ID");
@@ -119,7 +121,7 @@ public class ToolService implements ToolRepository {
                     producer = tempProducer;
                 }
             }
-            tool = new Tool(tool_id, tool_model, tool_title, tool_price, category, producer);
+            tool = new Tool(tool_id, tool_model, tool_title, tool_price, tool_currency, category, producer);
         } catch (SQLException throwables) {
             logger.error(throwables.getStackTrace());
         }

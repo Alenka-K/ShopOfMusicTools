@@ -9,17 +9,19 @@ public class Tool implements Serializable {
     private String model;
     private String title;
     private int price;
+    private String currency;
     private Category category;
     private Producer producer;
 
     public Tool() {
     }
 
-    public Tool(int id, String model, String title, int price, Category category, Producer producer) {
+    public Tool(int id, String model, String title, int price, String currency, Category category, Producer producer) {
         this.id = id;
         this.model = model;
         this.title = title;
         this.price = price;
+        this.currency = currency;
         this.category = category;
         this.producer = producer;
     }
@@ -50,6 +52,12 @@ public class Tool implements Serializable {
 
     public int getPrice() {
         return price;
+    }
+
+    public String getCurrency() { return currency; }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public void setPrice(int price) {
@@ -88,6 +96,7 @@ public class Tool implements Serializable {
         if (price != tool.price) return false;
         if (model != null ? !model.equals(tool.model) : tool.model != null) return false;
         if (title != null ? !title.equals(tool.title) : tool.title != null) return false;
+        if (currency != null ? !currency.equals(tool.currency) : tool.currency != null) return false;
         if (category != null ? !category.equals(tool.category) : tool.category != null) return false;
         return producer != null ? producer.equals(tool.producer) : tool.producer == null;
     }
@@ -98,6 +107,7 @@ public class Tool implements Serializable {
         result = 31 * result + (model != null ? model.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + price;
+        result = 31 * result + (currency != null ? currency.hashCode() : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
         result = 31 * result + (producer != null ? producer.hashCode() : 0);
         return result;

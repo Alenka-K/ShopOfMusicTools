@@ -48,10 +48,11 @@ public class ToolController {
     public String saveTool(@RequestParam("model") String model,
                                  @RequestParam("title") String title,
                                  @RequestParam("price") int price,
+                                 @RequestParam("currency") String currency,
                                  @RequestParam("category") int cat_id,@RequestParam("producer") int prod_id){
         Category cat = categoryService.getCategoryById(cat_id);
         Producer prod = producerService.getProducerById(prod_id);
-        toolService.addTool(model,title, price, cat, prod);
+        toolService.addTool(model,title, price, currency, cat, prod);
         return "redirect:/viewAllTools";
     }
 
