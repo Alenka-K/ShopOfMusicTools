@@ -1,3 +1,4 @@
+<%@ page import="com.example.shopofmusictools.CurrencyRateRequester" %>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
@@ -14,7 +15,7 @@
         <th>ID</th>
         <th>Model</th>
         <th>Title</th>
-        <th>Price</th>
+        <th>Price, грн</th>
         <th>Category</th>
         <th>Producer</th>
         <security:authorize access="hasRole('ADMIN')">
@@ -29,7 +30,7 @@
             <td>${tool.id}</td>
             <td>${tool.model}</td>
             <td>${tool.title}</td>
-            <td>${tool.price}</td>
+            <td>${String.format("%.0f", CurrencyRateRequester.getCurrencyRate(tool.currency))*tool.price}</td>
             <td><a href="showCategory/${tool.category.id}">${tool.category.name}</a></td>
             <td><a href="showProducer/${tool.producer.id}">${tool.producer.name}</a></td>
             <security:authorize access="hasRole('ADMIN')">
