@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+
+  java-lab3:
+    image: java-lab3:latest
+    ports:
+      - '8787:8787'
+
+  oracle-db:
+    image: oracle/database:21.3.0-xe
+    container_name: oracle21xe
+    restart: always
+    ports:
+      - '1521:1521'
+      - '5501:5500'
+    environment:
+      ORACLE_PWD: Ksa04061981
+
+
+  java-lab2:
+    build: .
+    ports:
+      - '9345:9345'
+    restart: on-failure
+    depends_on:
+      - oracle-db
+      - java-lab3
+    environment:
+      SPRING_DATASOURSE_URL: jdbc:oracle:thin:@//oracle-db:1521/XE
+      SPRING_DATASOURSE_USERNAME: system
+      SPRING_DATASOURSE_PASSWORD: Ksa04061981
+      SPRING_DATASOURSE_DRIVER-CLASS-NAME: oracle.jdbc.OracleDriver

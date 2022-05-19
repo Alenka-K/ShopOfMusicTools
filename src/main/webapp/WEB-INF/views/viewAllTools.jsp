@@ -30,7 +30,7 @@
             <td>${tool.id}</td>
             <td>${tool.model}</td>
             <td>${tool.title}</td>
-            <td>${String.format("%.0f", CurrencyRateRequester.getCurrencyRate(tool.currency))*tool.price}</td>
+            <td>${String.format("%.0f", CurrencyRateRequester.getCurrencyRate(tool.currency)*tool.price)}</td>
             <td><a href="showCategory/${tool.category.id}">${tool.category.name}</a></td>
             <td><a href="showProducer/${tool.producer.id}">${tool.producer.name}</a></td>
             <security:authorize access="hasRole('ADMIN')">

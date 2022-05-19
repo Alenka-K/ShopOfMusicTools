@@ -23,7 +23,12 @@
   </tr>
   <tr>
     <td>Currency</td>
-    <td><form:input path="currency"/></td>
+      <td><form:select path="currency" >
+          <c:forEach items="${currencyCodeList}" var="currency">
+              <form:option value="${currency}">${currency}</form:option>
+          </c:forEach>
+      </form:select>
+      </td>
   </tr>
   <tr>
     <td>Category</td>

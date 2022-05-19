@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Currency;
 import java.util.List;
 
 @Controller
@@ -40,6 +41,7 @@ public class ToolController {
     public String addTool(Model model){
         model.addAttribute("categoryList", categoryService.getAllCategory());
         model.addAttribute("producerList", producerService.getAllProducer());
+        model.addAttribute("currencyCodeList", Currency.getAvailableCurrencies().toArray());
         model.addAttribute("command", new Tool());
         return "addTool";
     }
@@ -52,7 +54,7 @@ public class ToolController {
                                  @RequestParam("category") int cat_id,@RequestParam("producer") int prod_id){
         Category cat = categoryService.getCategoryById(cat_id);
         Producer prod = producerService.getProducerById(prod_id);
-        toolService.addTool(model,title, price, currency, cat, prod);
+        toolService.addTool(model, title, price, currency, cat, prod);
         return "redirect:/viewAllTools";
     }
 

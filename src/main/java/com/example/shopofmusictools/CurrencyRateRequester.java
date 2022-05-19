@@ -16,7 +16,7 @@ public class CurrencyRateRequester {
     private static final Logger logger = Logger.getLogger(CurrencyRateRequester.class);
     public static final String DATE_FORMAT = "dd-MM-yyyy";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
-    private static final String URL = "http://localhost:8787/controller/NBU/";
+    private static final String URL = "http://java-lab3:8787/";
 
         public static float getCurrencyRate(String currencyCode) {
 
@@ -34,8 +34,8 @@ public class CurrencyRateRequester {
                 }
             } catch (IOException | InterruptedException e) {
                 logger.error(e.getStackTrace());
+                logger.info("Current rate did not receive");
             }
-            logger.info("Current rate did not receive");
             return 0.0f;
         }
 }
