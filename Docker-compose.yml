@@ -2,7 +2,7 @@ version: '3.8'
 services:
 
   java-lab3:
-    image: java-lab3:latest
+    image: alenkaksa81/java-lab3
     ports:
       - '8787:8787'
 
@@ -19,9 +19,9 @@ services:
 
   java-lab2:
     build: .
+    restart: on-failure
     ports:
       - '9345:9345'
-    restart: on-failure
     depends_on:
       - oracle-db
       - java-lab3
