@@ -68,4 +68,13 @@ public class Category implements Serializable{
         result = 31 * result + discount;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", discount=" + discount +
+                '}';
+    }
 }

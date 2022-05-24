@@ -82,7 +82,15 @@ public class Tool implements Serializable {
 
     @Override
     public String toString() {
-        return model + title;
+        return "Tool{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                ", category=" + category.getName() +
+                ", producer=" + producer.getName() +
+                '}';
     }
 
     @Override
