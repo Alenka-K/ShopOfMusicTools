@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "currency.url",
+      "type": "java.lang.String"
+    }
+  ]
+}
