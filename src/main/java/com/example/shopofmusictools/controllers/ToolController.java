@@ -1,6 +1,7 @@
 package com.example.shopofmusictools.controllers;
 
 
+import com.example.shopofmusictools.CurrencyRateRequester;
 import com.example.shopofmusictools.models.Category;
 import com.example.shopofmusictools.models.Producer;
 import com.example.shopofmusictools.models.Tool;
@@ -12,8 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Currency;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ToolController {
@@ -24,17 +24,27 @@ public class ToolController {
 
     private final ProducerService producerService;
 
-    public ToolController(ToolService toolService, CategoryService categoryService, ProducerService producerService) {
+    private final CurrencyRateRequester currencyRateRequester;
+
+    public ToolController(ToolService toolService, CategoryService categoryService, ProducerService producerService, CurrencyRateRequester currencyRateRequester) {
         this.toolService = toolService;
         this.categoryService = categoryService;
         this.producerService = producerService;
+        this.currencyRateRequester = currencyRateRequester;
     }
     
 
     @GetMapping("/viewAllTools")
-    public ModelAndView viewAllTools() {
+    public String viewAllTools(Model model) {
         List<Tool> tools = toolService.getAllTool();
-        return new ModelAndView("viewAllTools", "list", tools);
+        Map<String, Float> rates = new HashMap<>();
+        for (Tool tool : tools ) {
+            float rate = currencyRateRequester.getCurrencyRate(tool);
+            rates.put(tool.getCurrency(), rate);
+        }
+        model.addAttribute("list", tools);
+        model.addAttribute("listRates", rates);
+        return "viewAllTools";
     }
 
     @GetMapping("/addTool")
