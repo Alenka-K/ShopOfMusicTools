@@ -10,11 +10,14 @@ services:
     image: oracle/database:21.3.0-xe
     container_name: oracle21xe
     restart: always
+    volumes:
+      - dbdata:/opt/oracle/oradata
     ports:
       - '1521:1521'
       - '5501:5500'
     environment:
       ORACLE_PWD: Ksa04061981
+
 
 
   java-lab2:
@@ -30,3 +33,6 @@ services:
       SPRING_DATASOURSE_USERNAME: system
       SPRING_DATASOURSE_PASSWORD: Ksa04061981
       SPRING_DATASOURSE_DRIVER-CLASS-NAME: oracle.jdbc.OracleDriver
+
+volumes:
+  dbdata:
