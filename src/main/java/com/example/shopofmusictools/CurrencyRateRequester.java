@@ -40,8 +40,7 @@ public class CurrencyRateRequester {
                     return rate;
                 }
             } catch (IOException | InterruptedException e) {
-                logger.error(e.getStackTrace());
-                logger.info("Current rate did not receive");
+                logger.error("Currency rate was not received", e);
             }
             return 0.0f;
         }

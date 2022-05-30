@@ -36,8 +36,8 @@ public class OrderService implements OrderRepository {
                     order = parseOrder(resultSet);
                 }
             }
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return order;
     }
@@ -54,7 +54,7 @@ public class OrderService implements OrderRepository {
             preparedStatement.setInt(4, quantity);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -65,7 +65,7 @@ public class OrderService implements OrderRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -77,7 +77,7 @@ public class OrderService implements OrderRepository {
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -91,7 +91,7 @@ public class OrderService implements OrderRepository {
                 orders.add(parseOrder(resultSet));
             }
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
         return orders;
 
@@ -108,8 +108,8 @@ public class OrderService implements OrderRepository {
             Tool tool = toolService.getToolById(tool_id);
             int ord_quantity = resultSet.getInt("ORD_QUANTITY");
             order = new Order(ord_id, ord_date, customer, tool, ord_quantity);
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return order;
     }

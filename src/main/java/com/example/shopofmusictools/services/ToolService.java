@@ -39,8 +39,8 @@ public class ToolService implements ToolRepository {
                     tool = parseTool(resultSet);
                 }
             }
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return tool;
     }
@@ -57,7 +57,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(6, producer.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -68,7 +68,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -84,7 +84,7 @@ public class ToolService implements ToolRepository {
             preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -98,7 +98,7 @@ public class ToolService implements ToolRepository {
                 tools.add(parseTool(resultSet));
             }
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
         return tools;
     }
@@ -122,8 +122,8 @@ public class ToolService implements ToolRepository {
                 }
             }
             tool = new Tool(tool_id, tool_model, tool_title, tool_price, tool_currency, category, producer);
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return tool;
     }

@@ -35,7 +35,7 @@ public class CategoryService implements CategoryRepository {
                 }
             }
         } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+            logger.error(throwables.getMessage(), throwables);
         }
         return category;
     }
@@ -48,7 +48,7 @@ public class CategoryService implements CategoryRepository {
             preparedStatement.setInt(2, discount);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -59,7 +59,7 @@ public class CategoryService implements CategoryRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -72,7 +72,7 @@ public class CategoryService implements CategoryRepository {
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -86,7 +86,7 @@ public class CategoryService implements CategoryRepository {
                categories.add(parseCategory(resultSet));
             }
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
         return categories;
     }
@@ -99,8 +99,8 @@ public class CategoryService implements CategoryRepository {
             String cat_name = resultSet.getString("CAT_NAME");
             int cat_discount = resultSet.getInt("CAT_DISCOUNT");
             category = new Category(cat_id, cat_name, cat_discount);
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return category;
     }

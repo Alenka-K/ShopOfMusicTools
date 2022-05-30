@@ -34,8 +34,8 @@ public class ProducerService implements ProducerRepository {
                     producer = parseProducer(resultSet);
                 }
             }
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return producer;
     }
@@ -48,7 +48,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setString(2, country);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -59,7 +59,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -72,7 +72,7 @@ public class ProducerService implements ProducerRepository {
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -86,7 +86,7 @@ public class ProducerService implements ProducerRepository {
                 producers.add(parseProducer(resultSet));
             }
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
         return producers;
     }
@@ -98,8 +98,8 @@ public class ProducerService implements ProducerRepository {
             String prod_name = resultSet.getString("PROD_NAME");
             String prod_country = resultSet.getString("PROD_COUNTRY");
             producer = new Producer(prod_id, prod_name, prod_country);
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return producer;
     }

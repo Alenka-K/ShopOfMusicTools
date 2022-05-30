@@ -36,8 +36,8 @@ public class SQLInitializer implements ApplicationRunner {
             while ((resultSet.next())) {
                 count = resultSet.getInt("COUNT(*)");
             }
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         if(count == 0) {
             Resource initShema = new ClassPathResource("shema.sql");

@@ -28,7 +28,7 @@ public class CustomerService implements CustomerRepository {
                 customers.add(parseCustomer(resultSet));
             }
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
         return customers;
 
@@ -42,7 +42,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setString(2, phone);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -53,7 +53,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -66,7 +66,7 @@ public class CustomerService implements CustomerRepository {
             preparedStatement.setInt(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e.getStackTrace());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -77,8 +77,8 @@ public class CustomerService implements CustomerRepository {
             String cust_name = resultSet.getString("CUST_NAME");
             String cust_phone = resultSet.getString("CUST_PHONE");
             customer = new Customer(cust_id, cust_name, cust_phone);
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return customer;
     }
@@ -93,8 +93,8 @@ public class CustomerService implements CustomerRepository {
                     customer = parseCustomer(resultSet);
                 }
             }
-        } catch (SQLException throwables) {
-            logger.error(throwables.getStackTrace());
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
         }
         return customer;
     }
