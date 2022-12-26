@@ -7,7 +7,7 @@ services:
       - '8787:8787'
 
   oracle-db:
-    image: oracle/database:21.3.0-xe
+    image: alenkaksa81/oracle:21.3.0-xe
     container_name: oracle21xe
     restart: always
     volumes:
